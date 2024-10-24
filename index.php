@@ -23,12 +23,16 @@ if (!$conn) {
 <body>
     <?php
 
-    if (isset($_POST['nazwisko']) && $_POST['nazwisko'] != '') {
-        $nazwisko = $_POST['nazwisko'];
+    if (isset($_POST['nazwisko'])) {
+        if(trim($_POST['nazwisko']) == '') {
+            $zapytanie = "SELECT * FROM uczniowie";
+            echo "Nie podales nazwiska";
+            $zapytanie = "SELECT * FROM uczniowie";
+        } else {
+            $nazwisko = mysqli_real_escape_string($conn, $_POST['nazwisko']);
+            $zapytanie = "SELECT * FROM uczniowie WHERE nazwisko='$nazwisko'";
+        }
 
-        $nazwisko = mysqli_real_escape_string($conn, $nazwisko);
-
-        $zapytanie = "SELECT * FROM uczniowie WHERE nazwisko='$nazwisko'";
     } else {
         $zapytanie = "SELECT * FROM uczniowie";
     }
@@ -51,7 +55,6 @@ if (!$conn) {
         }
 
         echo "</table>";
-
     } else {
         echo "Brak wyników";
     }
