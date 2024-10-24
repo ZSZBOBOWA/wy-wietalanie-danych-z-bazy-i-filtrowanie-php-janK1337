@@ -24,7 +24,7 @@ if (!$conn) {
     <?php
 
     if (isset($_POST['nazwisko'])) {
-        if(trim($_POST['nazwisko']) == '') {
+        if (trim($_POST['nazwisko']) == '') {
             $zapytanie = "SELECT * FROM uczniowie";
             echo "Nie podales nazwiska";
             $zapytanie = "SELECT * FROM uczniowie";
@@ -32,7 +32,6 @@ if (!$conn) {
             $nazwisko = mysqli_real_escape_string($conn, $_POST['nazwisko']);
             $zapytanie = "SELECT * FROM uczniowie WHERE nazwisko='$nazwisko'";
         }
-
     } else {
         $zapytanie = "SELECT * FROM uczniowie";
     }
