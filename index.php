@@ -26,7 +26,6 @@ if (!$conn) {
     if (isset($_POST['nazwisko']) && $_POST['nazwisko'] != '') {
         $nazwisko = $_POST['nazwisko'];
 
-
         $nazwisko = mysqli_real_escape_string($conn, $nazwisko);
 
         $zapytanie = "SELECT * FROM uczniowie WHERE nazwisko='$nazwisko'";
