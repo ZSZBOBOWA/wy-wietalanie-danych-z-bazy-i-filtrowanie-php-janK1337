@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "szkola";
+$dbname = "szkola2";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -13,30 +13,42 @@ if (!$conn) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>storna</title>
 </head>
-<body>
-    <?php 
 
-    $zapytanie = "SELECT * FROM uczniowie";
+<body>
+    <?php
+
+    if (isset($_POST['nazwisko']) && $_POST['nazwisko'] != '') {
+        $nazwisko = $_POST['nazwisko'];
+
+
+        $nazwisko = mysqli_real_escape_string($conn, $nazwisko);
+
+        $zapytanie = "SELECT * FROM uczniowie WHERE nazwisko='$nazwisko'";
+    } else {
+        $zapytanie = "SELECT * FROM uczniowie";
+    }
+
     $wynik = mysqli_query($conn, $zapytanie);
 
-    if(mysqli_num_rows($wynik) > 0) {
+    if (mysqli_num_rows($wynik) > 0) {
         echo "<table border='1'>
         <tr>
         <th>Imie</th>
         <th>Nazwisko</th>
         <th>Wiek</th>
         </tr>";
-        
-        while($row = mysqli_fetch_assoc($wynik)) {
-           echo "<tr>
-            <td> ". $row['imie'] . "</td>" .
-            "<td> ". $row['nazwisko'] . "</td>".
-            "<td> ". $row['wiek'] . "</td>";
+
+        while ($row = mysqli_fetch_assoc($wynik)) {
+            echo "<tr>
+            <td> " . $row['imie'] . "</td>" .
+                "<td> " . $row['nazwisko'] . "</td>" .
+                "<td> " . $row['wiek'] . "</td>";
         }
 
         echo "</table>";
@@ -47,10 +59,11 @@ if (!$conn) {
     mysqli_close($conn);
     ?>
 
-<form method="POST" action="index.php">
-    Wpisz nazwisko: <input type="text" name="nazwisko">
-    <input type="submit" value="Filtruj">
-</form>
+    <form method="POST" action="index.php">
+        Wpisz nazwisko: <input type="text" name="nazwisko">
+        <input type="submit" value="Filtruj">
+    </form>
 
 </body>
+
 </html>
